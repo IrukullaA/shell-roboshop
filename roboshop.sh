@@ -16,19 +16,19 @@ do
         --output text
     )
 
-    aws ec2 wait instance-running --instance-ids "$INSTANCE_ID"
+    aws ec2 wait instance-running --instance-ids "$instance_id"
 
     if [ "$instance" = "frontend" ]; then
         IP=$(
             aws ec2 describe-instances \
-            --instance-ids $instance_id \
+            --instance-ids "$instance_id" \
             --query "Reservations[].Instances[0].PublicIpAddress" \
             --output text
         )
     else
         IP=$(
             aws ec2 describe-instances \
-            --instance-ids $instance_id \
+            --instance-ids "$instance_id" \
             --query "Reservations[].Instances[0].PrivateIpAddress" \
             --output text
         )
