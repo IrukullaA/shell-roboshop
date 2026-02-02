@@ -32,5 +32,6 @@ do
             --query "Reservations[].Instances[0].PrivateIpAddress" \
             --output text
         )
-    fi    
+    fi
+    echo "$IP"  
 done
