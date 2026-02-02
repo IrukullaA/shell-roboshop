@@ -11,22 +11,24 @@ do
         --instance-type t3.micro \
         --security-group-ids "$SG_ID" \
         --count 1 \
-        --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=\"$instance\"}]' \
+        --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=\"$instance\"}]" \
         --query "Instances[0].InstanceId" \
         --output text
     )
 
+    aws ec2 wait instance-running --instance-ids "$INSTANCE_ID"
+
     if [ "$instance" = "frontend" ]; then
         IP=$(
             aws ec2 describe-instances \
-            --instance--ids $instance_id \
+            --instance-ids $instance_id \
             --query "Reservations[].Instances[0].PublicIpAddress" \
             --output text
         )
     else
         IP=$(
             aws ec2 describe-instances \
-            --instance--ids $instance_id \
+            --instance-ids $instance_id \
             --query "Reservations[].Instances[0].PrivateIpAddress" \
             --output text
         )
